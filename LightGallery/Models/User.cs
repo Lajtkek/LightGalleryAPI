@@ -1,7 +1,8 @@
-﻿namespace LightGallery.Models;
+﻿using Microsoft.AspNetCore.Identity;
 
-public class User
+namespace LightGallery.Models;
+
+public class User : IdentityUser
 {
-    public Guid Id { get; set; }
-    public string UserName { get; set; }
+    
 }

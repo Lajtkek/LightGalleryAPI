@@ -1,9 +1,10 @@
 ﻿using LightGallery.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace LightGallery;
 
-public class DefaultDatabaseContext : DbContext
+public class DefaultDatabaseContext : IdentityDbContext<User>
 {
     public DefaultDatabaseContext(DbContextOptions<DefaultDatabaseContext> options) : base(options)
     {
@@ -13,6 +14,4 @@ public class DefaultDatabaseContext : DbContext
     {
         base.OnModelCreating(builder);
     }
-    
-    public DbSet<User> Users { get; set; }
 }

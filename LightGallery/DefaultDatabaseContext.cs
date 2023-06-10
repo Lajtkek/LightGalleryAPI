@@ -14,4 +14,6 @@ public class DefaultDatabaseContext : IdentityDbContext<User>
     {
         base.OnModelCreating(builder);
     }
+    
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 }

@@ -67,7 +67,7 @@ public class FileController : ControllerBase
     }
     
     [AllowAnonymous]
-    [HttpPost("{idFile}")]
+    [HttpGet("{idFile}")]
     public async Task<IActionResult> GetFile(Guid idFile)
     {
         var galleryFile = await _galleryService.GetFile(idFile);

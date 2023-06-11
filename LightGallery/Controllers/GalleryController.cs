@@ -19,7 +19,6 @@ public class GalleryController : ControllerBase
     {
         _galleryService = galleryService;
         _config = config;
-        
     }
 
     [AllowAnonymous]

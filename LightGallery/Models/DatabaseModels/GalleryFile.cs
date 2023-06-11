@@ -17,6 +17,11 @@ public class GalleryFile
     public string FileName { get; set; } = string.Empty;
     
     [Required]
+    [MinLength(1)]
+    [MaxLength(12)]
+    public string Extension { get; set; } = string.Empty;
+    
+    [Required]
     [MaxLength(32)]
     public string MimeType { get; set; } = string.Empty;
 
@@ -33,4 +38,6 @@ public class GalleryFile
     public DateTime UploadedAt { get; set; } = DateTime.UtcNow;
 
     public bool IsTemporary { get; set; } = true;
+    
+    public int FolderIndex { get; set; } = 0;
 }

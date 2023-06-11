@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using LightGallery;
 using LightGallery.Models;
 using LightGallery.Service;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -19,6 +20,7 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IGalleryService, GalleryService>();
+builder.Services.AddTransient<IFileService, FileService>();
 builder.Services.AddScoped<SeedService>();
 
 builder.Services.AddControllers();
@@ -76,7 +78,11 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme = "Internal";
 }).AddJwtBearer("Internal", x =>
 {
-    x.SaveToken = true;
+    x.Events = new JwtBearerEvents()
+    {
+        OnMessageReceived = (context) => Task.CompletedTask,
+        OnChallenge = (context) => Task.CompletedTask
+    };
     x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,

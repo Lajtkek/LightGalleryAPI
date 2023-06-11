@@ -16,4 +16,8 @@ public class Gallery
     public string Title { get; set; }
     
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public long TotalGallerySize { get; set; } = 0;
+    public int LastFolderIndex { get; set; } = 0;
+    public int LastFileIndex { get; set; } = 0;
 }

@@ -39,9 +39,11 @@ public class GalleryService : IGalleryService
         return gallery;
     }
 
-    public Task<IEnumerable<GalleryGridDto>> GetGalleries()
+    public async Task<IEnumerable<GalleryGridDto>> GetGalleries()
     {
-        throw new NotImplementedException();
+        var galleries = await _context.Galleries.Include(x => x.Owner).ToListAsync();
+
+        return _mapper.Map<List<GalleryGridDto>>(galleries);
     }
 
     public Task<IEnumerable<GalleryGridDto>> GetUserGalleries(Guid idUser)

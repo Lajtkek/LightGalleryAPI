@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EntityFrameworkPaginateCore;
 using LightGallery.Models;
 using LightGallery.Models.Requests;
 using LightGallery.Models.Results;
@@ -14,6 +15,7 @@ public interface IGalleryService
     public Task<IEnumerable<Gallery>> GalleryDetail(Guid idUser);
     public Task<bool?> CanUpload(Guid idUser, Guid idGallery);
     public Task<CreateFileResult> CreateFile(CreateFileRequest request);
+    public Task<Page<GalleryFileGridDto>> GetFilesPage(Guid idGallery, int pageNumber = 1, int pageSize = 5);
 }
 
 public class GalleryService : IGalleryService
@@ -116,5 +118,14 @@ public class GalleryService : IGalleryService
             Success = true,
             GalleryFile = galleryFile
         };
+    }
+
+    public async Task<Page<GalleryFileGridDto>> GetFilesPage(Guid idGallery, int pageNumber = 1, int pageSize = 5)
+    {
+        var sorts = new Sorts<GalleryFile>();
+
+        var page = await _context.Files.Include(x => x.Owner).PaginateAsync(pageNumber, pageSize, sorts);
+
+        return _mapper.Map<Page<GalleryFileGridDto>>(page);
     }
 }

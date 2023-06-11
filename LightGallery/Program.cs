@@ -11,6 +11,9 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure reading application configuration from Railway env variables
+builder.Configuration.AddEnvironmentVariables(prefix: "Railway_");
+
 builder.Services.AddControllers().AddJsonOptions(x =>
 {
     x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -57,7 +60,7 @@ var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<DefaultDatabaseContext>(o =>
     o.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
 );
-    
+
 builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
     {
         options.User.RequireUniqueEmail = false;

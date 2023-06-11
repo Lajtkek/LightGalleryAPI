@@ -15,7 +15,10 @@ builder.Services.AddControllers().AddJsonOptions(x =>
     x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<IGalleryService, GalleryService>();
 builder.Services.AddScoped<SeedService>();
 
 builder.Services.AddControllers();

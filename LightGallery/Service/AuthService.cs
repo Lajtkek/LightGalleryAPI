@@ -17,6 +17,7 @@ public interface IAuthService
     public Task<string> GenerateRefreshToken(User user);
     public Task<RefreshToken?> GetRefreshToken(string token);
     public Task<RefreshToken?> RefreshRefreshToken(RefreshToken token);
+    public Task<bool> InvalidateRefreshToken(string token);
     public CookieOptions GetHttpsCookieOptions();
 }
 
@@ -131,6 +132,16 @@ public class AuthService : IAuthService
         return refreshToken;
     }
 
+    public async Task<bool> InvalidateRefreshToken(string tokenString)
+    {
+        var token = await GetRefreshToken(tokenString);
+        if (token == null) return false;
+        
+        token.ExpiresAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
+        return true;
+    }
+    
     public CookieOptions GetHttpsCookieOptions()
     {
         return new CookieOptions

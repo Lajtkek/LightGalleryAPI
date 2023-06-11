@@ -82,9 +82,15 @@ public class AuthController : ControllerBase
     [HttpPost("Logout")]
     public async Task<IActionResult> LogOut()
     {
-        // TODO: Find if cookie cannot be deleted in better way
-        Response.Cookies.Append("RefreshToken", "", _authService.GetHttpsCookieOptions());
-      
+        var refreshToken = Request.Cookies["RefreshToken"];
+
+        if (!string.IsNullOrEmpty(refreshToken))
+        {
+            await _authService.InvalidateRefreshToken(refreshToken);
+            // TODO: Find if cookie cannot be deleted in better way
+            Response.Cookies.Append("RefreshToken", "", _authService.GetHttpsCookieOptions());
+        }
+        
         return Ok();
     }
 }

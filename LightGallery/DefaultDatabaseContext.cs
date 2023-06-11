@@ -1,10 +1,11 @@
 ﻿using LightGallery.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace LightGallery;
 
-public class DefaultDatabaseContext : IdentityDbContext<User>
+public class DefaultDatabaseContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
     public DefaultDatabaseContext(DbContextOptions<DefaultDatabaseContext> options) : base(options)
     {
@@ -39,11 +40,12 @@ public class DefaultDatabaseContext : IdentityDbContext<User>
 
         builder.Entity<Rating>()
             .HasKey(x => new { x.IdFile, x.IdUser });
+        
     }
     
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<GalleryFile> Files { get; set; }
-    public DbSet<Gallery> Gallery { get; set; }
+    public DbSet<Gallery> Galleries { get; set; }
     public DbSet<Tag> Tags { get; set; }
     public DbSet<Rating> Ratings { get; set; }
 }

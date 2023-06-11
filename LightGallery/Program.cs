@@ -56,7 +56,7 @@ builder.Services.AddDbContext<DefaultDatabaseContext>(o =>
     o.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
 );
     
-builder.Services.AddIdentity<User, IdentityRole>(options =>
+builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
     {
         options.User.RequireUniqueEmail = false;
         options.Password.RequireDigit = false;

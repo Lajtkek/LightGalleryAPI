@@ -8,12 +8,14 @@ public class SeedService
     private readonly IConfiguration _config;
     private readonly DefaultDatabaseContext _context;
     private readonly UserManager<User> _userManager;
+    private readonly IGalleryService _galleryService;
 
-    public SeedService(IConfiguration config, UserManager<User> userManager, DefaultDatabaseContext context)
+    public SeedService(IConfiguration config, UserManager<User> userManager, DefaultDatabaseContext context, IGalleryService galleryService)
     {
         _config = config;
         _userManager = userManager;
         _context = context;
+        _galleryService = galleryService;
     }
 
     public async Task Seed()
@@ -47,6 +49,12 @@ public class SeedService
             Console.WriteLine("Ending seeding");
         }
         
-        Console.WriteLine("Root user created");
+        Console.WriteLine("Root user created.");
+        Console.WriteLine("Creating gallery");
+        
+        user = await _userManager.FindByNameAsync(username);
+        await _galleryService.CreateGallery(user.Id, "Initial gallery");
+        
+        Console.WriteLine("Gallery created.");
     }
 }

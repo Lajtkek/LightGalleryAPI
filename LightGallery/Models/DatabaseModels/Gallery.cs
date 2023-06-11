@@ -14,4 +14,6 @@ public class Gallery
     [MinLength(5)]
     [MaxLength(128)]
     public string Title { get; set; }
+    
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

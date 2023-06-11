@@ -67,7 +67,7 @@ public class AuthService : IAuthService
 
         var tokenClaims = new List<Claim>()
         {
-            new Claim("UserId", user.Id),
+            new Claim("UserId", user.Id.ToString()),
             new Claim("UserName", user.UserName),
         };
         

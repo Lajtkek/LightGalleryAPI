@@ -1,4 +1,5 @@
 using LightGallery.Helpers;
+using LightGallery.Models;
 using LightGallery.Models.Errors;
 using LightGallery.Models.Requests;
 using LightGallery.Models.Results;
@@ -63,5 +64,22 @@ public class FileController : ControllerBase
         await _fileService.MakeFilePermanent(tempFileResult.Path, fileCreateResult.GalleryFile);
 
         return Ok(fileCreateResult.GalleryFile.Id);
+    }
+    
+    [AllowAnonymous]
+    [HttpPost("{idFile}")]
+    public async Task<IActionResult> GetFile(Guid idFile)
+    {
+        var galleryFile = await _galleryService.GetFile(idFile);
+        if (galleryFile == null) return NotFound();
+
+        var filePath = await _fileService.GetFilePath(galleryFile);
+        if (System.IO.File.Exists(filePath))
+        {
+            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            return File(fileStream, galleryFile.MimeType, galleryFile.FileName + galleryFile.Extension);
+        }
+
+        return NotFound();
     }
 }

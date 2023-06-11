@@ -9,6 +9,8 @@ public interface IFileService
 {
     public Task<TemporaryFileResult> UploadFileToTemporaryStorage(Guid idUser, IFormFile file);
     public Task<bool> MakeFilePermanent(string oldPath, GalleryFile galleryFile);
+    public Task<string> GetFileFolder(GalleryFile galleryFile);
+    public Task<string> GetFilePath(GalleryFile galleryFile);
 }
 
 public class FileService : IFileService
@@ -60,18 +62,12 @@ public class FileService : IFileService
 
     public Task<string> GetFileFolder(GalleryFile galleryFile)
     {
-        // TODO: add logic for loading owner if null
-        if (galleryFile.Owner?.Id == null) throw new Exception();
-
         var folderIndex = $"{galleryFile.FolderIndex:0000}";
-        return Task.FromResult(Path.Combine(_rootPath, "Files", galleryFile.Gallery.Owner.Id.ToString(), galleryFile.Gallery.Id.ToString(), $"Chunk_{folderIndex}"));
+        return Task.FromResult(Path.Combine(_rootPath, "Files", galleryFile.IdOwner.ToString(), galleryFile.IdGallery.ToString(), $"Chunk_{folderIndex}"));
     }
     
     public async Task<string> GetFilePath(GalleryFile galleryFile)
     {
-        // TODO: add logic for loading owner if null
-        if (galleryFile.Owner?.Id == null) throw new Exception();
-        
         return Path.Combine(await GetFileFolder(galleryFile), galleryFile.Id + galleryFile.Extension);
     }
 }

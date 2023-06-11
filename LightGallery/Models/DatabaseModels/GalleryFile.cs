@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Net.Mime;
 
 namespace LightGallery.Models;
@@ -7,8 +8,13 @@ public class GalleryFile
 {
     [Key]
     public Guid Id { get; set; }
+    [ForeignKey("IdGallery")]
     public Gallery Gallery { get; set; }
+    public Guid IdGallery { get; set; }
+    
+    [ForeignKey("IdOwner")]
     public User Owner { get; set; }
+    public Guid IdOwner { get; set; }
     public ICollection<Tag> Tags { get; set; }
 
     [Required]

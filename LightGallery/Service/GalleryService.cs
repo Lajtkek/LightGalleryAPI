@@ -16,6 +16,7 @@ public interface IGalleryService
     public Task<bool?> CanUpload(Guid idUser, Guid idGallery);
     public Task<CreateFileResult> CreateFile(CreateFileRequest request);
     public Task<Page<GalleryFileGridDto>> GetFilesPage(Guid idGallery, int pageNumber = 1, int pageSize = 5);
+    public Task<GalleryFile?> GetFile(Guid idFile);
 }
 
 public class GalleryService : IGalleryService
@@ -127,5 +128,10 @@ public class GalleryService : IGalleryService
         var page = await _context.Files.Include(x => x.Owner).PaginateAsync(pageNumber, pageSize, sorts);
 
         return _mapper.Map<Page<GalleryFileGridDto>>(page);
+    }
+
+    public async Task<GalleryFile?> GetFile(Guid idFile)
+    {
+        return await _context.Files.FirstOrDefaultAsync(x => x.Id == idFile);
     }
 }

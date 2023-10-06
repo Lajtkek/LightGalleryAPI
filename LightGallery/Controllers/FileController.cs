@@ -65,30 +65,9 @@ public class FileController : ControllerBase
         var galleryFile = await _galleryService.GetFile(idFile);
         if (galleryFile == null) return NotFound();
     
-        var filePath = await _fileService.GetFilePath(galleryFile);
-        if (System.IO.File.Exists(filePath))
-        {
-            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-            return File(fileStream, galleryFile.MimeType, galleryFile.FileName + galleryFile.Extension);
-        }
-    
-        return NotFound();
-    }
-    
-    [AllowAnonymous]
-    [HttpPost("TestUpload")]
-    public async Task<IActionResult> UplaodFile(IFormFile galleryFile)
-    {
-        var stream = galleryFile.OpenReadStream();
-        await _ftpService.UploadFile(new GalleryFile(), stream);
-        return Ok();
-    }
-    
-    [AllowAnonymous]
-    [HttpGet("Test")]
-    public async Task<IActionResult> FileIDKL()
-    {
-        using (var a = await _ftpService.GetFile(""))
-        return File(a, "image/jpg");
+        // check owner
+        var stream = await _ftpService.GetFile(galleryFile);
+        
+        return File(stream, galleryFile.MimeType);
     }
 }

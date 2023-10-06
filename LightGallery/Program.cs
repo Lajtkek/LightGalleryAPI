@@ -12,7 +12,7 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure reading application configuration from Railway env variables
-// builder.Configuration.AddEnvironmentVariables(prefix: "Railway_");
+builder.Configuration.AddEnvironmentVariables(prefix: "Railway_");
 
 // Configure the application web host to listen on PORT provided by Railway reverse proxy
 // var port = Environment.GetEnvironmentVariable("PORT") ?? "8081";

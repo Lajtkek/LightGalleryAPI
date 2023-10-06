@@ -18,13 +18,14 @@ public class FileController : ControllerBase
     private readonly IGalleryService _galleryService;
     private readonly IConfiguration _config;
     private readonly IFileService _fileService;
+    private readonly IFTPService _ftpService;
 
-    public FileController(IFileService fileService, IGalleryService galleryService, IConfiguration config)
+    public FileController(IFileService fileService, IGalleryService galleryService, IConfiguration config, IFTPService ftpService)
     {
         _fileService = fileService;
         _galleryService = galleryService;
         _config = config;
-        
+        _ftpService = ftpService;
     }
     
     [Authorize]
@@ -81,5 +82,16 @@ public class FileController : ControllerBase
         }
 
         return NotFound();
+    }
+    
+    [AllowAnonymous]
+    [HttpGet("Test")]
+    public async Task<IActionResult> FileIDKL()
+    {
+        var stream = new MemoryStream();
+        
+            var a = await _ftpService.GetFile(stream, "");
+            return File(stream, "image/jpg");
+        
     }
 }

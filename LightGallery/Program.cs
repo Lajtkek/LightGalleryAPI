@@ -15,8 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables(prefix: "Railway_");
 
 // Configure the application web host to listen on PORT provided by Railway reverse proxy
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8081";
-builder.WebHost.UseUrls($"http://*:{port}");
+// var port = Environment.GetEnvironmentVariable("PORT") ?? "8081";
+// builder.WebHost.UseUrls($"http://*:{port}");
 
 builder.Services.AddControllers().AddJsonOptions(x =>
 {
@@ -108,7 +108,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var seedService = services.GetService<SeedService>();
-    //await seedService.Seed();
+    await seedService.Seed();
 }
 
 // Configure the HTTP request pipeline.

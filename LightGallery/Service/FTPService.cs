@@ -31,7 +31,7 @@ public class FTPService : IFTPService
 
     public string GetFileRemotePath(GalleryFile galleryFile)
     {
-        return $"./{galleryFile.IdGallery}/{galleryFile.FolderIndex}/{galleryFile.Id}.{galleryFile.Extension}";
+        return $"./{galleryFile.IdGallery}/{galleryFile.FolderIndex:000000}/{galleryFile.Id}.{galleryFile.Extension}";
     }
     
     public async Task UploadFile(GalleryFile galleryFile, Stream fileStream)

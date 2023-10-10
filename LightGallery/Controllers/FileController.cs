@@ -34,35 +34,26 @@ public class FileController : ControllerBase
     {
         var contextHelper = new ContextHelper(HttpContext);
         var idUser = contextHelper.GetUserId();
-
+    
         var canUpload = await _galleryService.CanUpload(idUser, request.IdGallery);
-
+    
         if (canUpload == null)
             return NotFound(new ErrorDto()
             {
                 Code = "GALLERY_NOT_FOUND",
                 Message = "This gallery doesn't exist."
             });
-
+    
         if (canUpload == false) return Unauthorized();
 
-        var tempFileResult = await _fileService.UploadFileToTemporaryStorage(idUser, request.File);
-
-        if (tempFileResult.Success == false) return StatusCode(500);
-
-        var fileCreateResult = await _galleryService.CreateFile(new CreateFileRequest()
+        var fileCreateResult = await _galleryService.UploadFile(new UploadFileRequest()
         {
             IdOwner = idUser,
             IdGallery = request.IdGallery,
-            FileName = request.FileName,
             Description = request.Description,
-            Extension = tempFileResult.Extension,
-            MimeType = tempFileResult.MimeType,
-            FileSize = tempFileResult.FileSize,
+            File = request.File,
+            Tags = request.Tags
         });
-    
-        // Remove file if error in database when uploading
-        await _fileService.MakeFilePermanent(tempFileResult.Path, fileCreateResult.GalleryFile);
 
         return Ok(fileCreateResult.GalleryFile.Id);
     }
@@ -73,25 +64,10 @@ public class FileController : ControllerBase
     {
         var galleryFile = await _galleryService.GetFile(idFile);
         if (galleryFile == null) return NotFound();
-
-        var filePath = await _fileService.GetFilePath(galleryFile);
-        if (System.IO.File.Exists(filePath))
-        {
-            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-            return File(fileStream, galleryFile.MimeType, galleryFile.FileName + galleryFile.Extension);
-        }
-
-        return NotFound();
-    }
     
-    [AllowAnonymous]
-    [HttpGet("Test")]
-    public async Task<IActionResult> FileIDKL()
-    {
-        var stream = new MemoryStream();
+        // check owner
+        var stream = await _ftpService.GetFile(galleryFile);
         
-            var a = await _ftpService.GetFile(stream, "");
-            return File(stream, "image/jpg");
-        
+        return File(stream, galleryFile.MimeType);
     }
 }

@@ -33,7 +33,7 @@ public class GalleryFile
 
     [Required]
     [MinLength(0)]
-    public int Size { get; set; } = 0;
+    public long Size { get; set; } = 0;
 
     [Required] 
     [MaxLength(8192)] 

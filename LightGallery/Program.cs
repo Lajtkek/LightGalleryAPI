@@ -108,8 +108,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.AddCors(policyBuilder =>
-    policyBuilder.AddDefaultPolicy(policy => policy.WithOrigins(builder.Configuration["AllowedCors"].Split(","))
-        .AllowAnyHeader().AllowAnyMethod().AllowCredentials())
+    policyBuilder.AddDefaultPolicy(policy => policy.AllowAnyOrigin()
+        .AllowAnyHeader().AllowAnyMethod())
 );
 
 var app = builder.Build();
@@ -129,6 +129,8 @@ using (var scope = app.Services.CreateScope())
 //}
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 

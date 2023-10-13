@@ -24,7 +24,7 @@ public class GalleryService : IGalleryService
     private readonly IMapper _mapper;
     private readonly DefaultDatabaseContext _context;
     private readonly IFTPService _ftpService;
-
+    
     private readonly int _maxFilesInFolder;
     public GalleryService(DefaultDatabaseContext context, IMapper mapper, IConfiguration config, IFTPService ftpService)
     {

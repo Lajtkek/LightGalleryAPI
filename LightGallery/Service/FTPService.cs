@@ -8,6 +8,7 @@ public interface IFTPService
 {
     public Task UploadFile(GalleryFile galleryFile, Stream fileStream);
     public Task<Stream> GetFile(GalleryFile galleryFile);
+    public string GetFileRemotePath(GalleryFile galleryFile);
 }
 
 public class FTPService : IFTPService

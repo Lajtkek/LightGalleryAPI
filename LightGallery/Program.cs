@@ -1,5 +1,7 @@
 using System.Text;
 using System.Text.Json.Serialization;
+using Discord;
+using Discord.WebSocket;
 using LightGallery;
 using LightGallery.Models;
 using LightGallery.Service;
@@ -11,12 +13,14 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure reading application configuration from Railway env variables
-builder.Configuration.AddEnvironmentVariables(prefix: "Railway_");
+#if !DEBUG
+    // Configure reading application configuration from Railway env variables
+    builder.Configuration.AddEnvironmentVariables(prefix: "Railway_");
 
-// Configure the application web host to listen on PORT provided by Railway reverse proxy
-// var port = Environment.GetEnvironmentVariable("PORT") ?? "8081";
-// builder.WebHost.UseUrls($"http://*:{port}");
+    // Configure the application web host to listen on PORT provided by Railway reverse proxy
+    var port = Environment.GetEnvironmentVariable("PORT") ?? "8081";
+    builder.WebHost.UseUrls($"http://*:{port}");
+#endif
 
 builder.Services.AddControllers().AddJsonOptions(x =>
 {
@@ -32,7 +36,6 @@ builder.Services.AddTransient<IFTPService, FTPService>();
 builder.Services.AddScoped<SeedService>();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {

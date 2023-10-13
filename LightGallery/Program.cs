@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
+// Trigger autobuild
+
 var builder = WebApplication.CreateBuilder(args);
 
 #if !DEBUG

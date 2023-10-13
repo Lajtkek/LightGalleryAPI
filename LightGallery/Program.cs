@@ -107,6 +107,11 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(policyBuilder =>
+    policyBuilder.AddDefaultPolicy(policy => policy.WithOrigins(builder.Configuration["AllowedCors"].Split(","))
+        .AllowAnyHeader().AllowAnyMethod().AllowCredentials())
+);
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -122,11 +127,6 @@ using (var scope = app.Services.CreateScope())
     app.UseSwagger();
     app.UseSwaggerUI();
 //}
-
-builder.Services.AddCors(policyBuilder =>
-    policyBuilder.AddDefaultPolicy(policy => policy.WithOrigins(builder.Configuration["AllowedCors"].Split(","))
-        .AllowAnyHeader().AllowAnyMethod().AllowCredentials())
-);
 
 app.UseHttpsRedirection();
 

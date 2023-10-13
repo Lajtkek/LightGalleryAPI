@@ -123,6 +123,11 @@ using (var scope = app.Services.CreateScope())
     app.UseSwaggerUI();
 //}
 
+builder.Services.AddCors(policyBuilder =>
+    policyBuilder.AddDefaultPolicy(policy => policy.WithOrigins(builder.Configuration["AllowedCors"].Split(","))
+        .AllowAnyHeader().AllowAnyMethod().AllowCredentials())
+);
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

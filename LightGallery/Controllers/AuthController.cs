@@ -43,7 +43,9 @@ public class AuthController : ControllerBase
         return Ok(token);
     }
 
+    #if !DEBUG
     [RequireHttps]
+    #endif
     [HttpPost("RefreshToken")]
     public async Task<IActionResult> RefreshToken()
     {

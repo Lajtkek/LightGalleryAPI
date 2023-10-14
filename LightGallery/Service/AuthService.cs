@@ -144,12 +144,22 @@ public class AuthService : IAuthService
     
     public CookieOptions GetHttpsCookieOptions()
     {
+        #if DEBUG
+        return new CookieOptions
+        {
+            Secure = false,
+            HttpOnly = false,
+            SameSite = SameSiteMode.None,
+            Expires = DateTime.UtcNow.Add(_refreshTokenExpire)
+        };
+        #else 
         return new CookieOptions
         {
             Secure = true,
             HttpOnly = true,
-            SameSite = SameSiteMode.Strict, 
+            SameSite = SameSiteMode.None, 
             Expires = DateTime.UtcNow.Add(_refreshTokenExpire),
         };
+        #endif
     }
 }

@@ -108,8 +108,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.AddCors(policyBuilder =>
-    policyBuilder.AddDefaultPolicy(policy => policy.AllowAnyOrigin()
-        .AllowAnyHeader().AllowAnyMethod())
+    policyBuilder.AddDefaultPolicy(policy => policy.WithOrigins(builder.Configuration["AllowedOrigins"].Split(","))
+        .AllowAnyHeader().AllowAnyMethod().AllowCredentials())
 );
 
 var app = builder.Build();

@@ -1,4 +1,5 @@
 using LightGallery.Models.Errors;
+using LightGallery.Models.Requests;
 using LightGallery.Models.Results;
 using LightGallery.Service;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -24,8 +25,9 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("Login")]
-    public async Task<IActionResult> Auth(string username, string password)
+    public async Task<IActionResult> Auth(LoginDto loginData)
     {
+        var (username, password) = loginData;
         var loginResult = await _authService.LoginByPassword(username, password);
 
         if (loginResult.Result == LoginResult.NotFound) return NotFound();

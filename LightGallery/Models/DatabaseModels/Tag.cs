@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LightGallery.Models;
 
@@ -9,7 +10,11 @@ public class Tag
     public Gallery Gallery { get; set; }
     public ICollection<GalleryFile> Files { get; set; }
     
+    public Guid IdParent { get; set; }
+
+    [ForeignKey("IdParent")]
     public Tag Parent { get; set; }
+    
     public ICollection<Tag> Children { get; set; }
     
     [Required]

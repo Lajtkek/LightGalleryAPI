@@ -4,7 +4,6 @@ public class TagGrid
 {
     public Guid Id { get; set; }
     
-    public Guid IdParent { get; set; }
     public ICollection<Guid> Children { get; set; }
     
     public string Name { get; set; }

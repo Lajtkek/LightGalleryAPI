@@ -50,7 +50,7 @@ public class FileController : ControllerBase
         {
             IdOwner = idUser,
             IdGallery = request.IdGallery,
-            Description = request.Description,
+            Description = request.Description ?? "",
             File = request.File,
             Tags = request.Tags
         });

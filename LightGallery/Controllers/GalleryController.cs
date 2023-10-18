@@ -31,7 +31,7 @@ public class GalleryController : ControllerBase
 
     [AllowAnonymous]
     [HttpGet("{idGallery}/Files")]
-    public async Task<Page<GalleryFileGridDto>> GetFilesPage([FromRoute] Guid idGallery, [FromQuery] int pageNumber = 1,[FromQuery]  int pageSize = 5)
+    public async Task<Page<GalleryFileGridDto>> GetFilesPage([FromRoute] Guid idGallery, [FromQuery] int pageNumber = 1,[FromQuery]  int pageSize = 10)
     {
         return await _galleryService.GetFilesPage(idGallery, pageNumber, pageSize);
     }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace LightGallery.Models.Requests;
 
@@ -17,10 +18,9 @@ public class FileUploadRequest
         
     [Required]
     public IFormFile File { get; set; }
-    
-    [Required] 
-    [MaxLength(8192)] 
-    public string Description { get; set; } = "";
+
+    [MaxLength(8192)]
+    public string? Description { get; set; } = "";
     
     public bool IsTemporary { get; set; } = true;
 }

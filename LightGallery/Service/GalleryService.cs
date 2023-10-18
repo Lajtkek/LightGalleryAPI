@@ -132,7 +132,7 @@ public class GalleryService : IGalleryService
         return new CreateFileResult{ Success = true, GalleryFile = galleryFile };
     }
 
-    public async Task<Page<GalleryFileGridDto>> GetFilesPage(Guid idGallery, int pageNumber = 1, int pageSize = 5)
+    public async Task<Page<GalleryFileGridDto>> GetFilesPage(Guid idGallery, int pageNumber = 1, int pageSize = 10)
     {
         var sorts = new Sorts<GalleryFile>();
 

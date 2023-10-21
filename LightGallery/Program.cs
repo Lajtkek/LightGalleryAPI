@@ -69,7 +69,7 @@ builder.Services.AddSwaggerGen(c =>
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<DefaultDatabaseContext>(o =>
-      o.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+      o.UseNpgsql(connectionString)
 );
 
 builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>

@@ -35,6 +35,7 @@ builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IGalleryService, GalleryService>();
 builder.Services.AddTransient<IFileService, FileService>();
 builder.Services.AddTransient<IFTPService, FTPService>();
+builder.Services.AddTransient<ITagService, TagService>();
 builder.Services.AddScoped<SeedService>();
 
 builder.Services.AddControllers();

@@ -17,9 +17,9 @@ public interface ITagService
 public class TagService : ITagService
 {
     private readonly DefaultDatabaseContext _context;
-    private readonly Mapper _mapper;
+    private readonly IMapper _mapper;
 
-    public TagService(DefaultDatabaseContext context, Mapper mapper)
+    public TagService(DefaultDatabaseContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;

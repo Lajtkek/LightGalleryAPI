@@ -36,9 +36,13 @@ public class TagService : ITagService
         }
 
         var tag = _mapper.Map<Tag>(request);
-        var children = await _context.Tags.Where(x => request.Children.Contains(x.Id)).ToListAsync();
-        tag.Children = children;
+        if (request.Children != null && request.Children.Any())
+        {
+            tag.Children = await _context.Tags.Where(x => request.Children.Contains(x.Id)).ToListAsync();
+        }
 
+        tag.GalleryId = idGallery;
+        
         await _context.Tags.AddAsync(tag);
         await _context.SaveChangesAsync();
 

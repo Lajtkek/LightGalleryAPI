@@ -7,13 +7,13 @@ public class Tag
 {
     [Key]
     public Guid Id { get; set; }
+    public Guid GalleryId { get; set; }
+    [ForeignKey("GalleryId")]
     public Gallery Gallery { get; set; }
     public ICollection<GalleryFile> Files { get; set; }
     
-    public Guid IdParent { get; set; }
 
-    [ForeignKey("IdParent")]
-    public Tag Parent { get; set; }
+    public ICollection<Tag> Parents { get; set; }
     
     public ICollection<Tag> Children { get; set; }
     

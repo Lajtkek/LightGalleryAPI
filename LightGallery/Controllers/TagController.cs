@@ -22,7 +22,7 @@ public class TagController : ControllerBase
         return Ok(result.Tag);
     }
 
-    [HttpGet]
+    [HttpGet("")]
     public async Task<ActionResult<IEnumerable<TagGrid>>> GetTags(Guid idGallery)
     {
         return Ok(await _tagService.GetTagGrid(idGallery, new TagGridRequest()

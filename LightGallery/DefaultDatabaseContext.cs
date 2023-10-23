@@ -35,7 +35,7 @@ public class DefaultDatabaseContext : IdentityDbContext<User, IdentityRole<Guid>
             .WithMany(x => x.Tags);
         
         builder.Entity<Tag>()
-            .HasOne(x => x.Parent)
+            .HasMany(x => x.Parents)
             .WithMany(x => x.Children);
 
         builder.Entity<Rating>()

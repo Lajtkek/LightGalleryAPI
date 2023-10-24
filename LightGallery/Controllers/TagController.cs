@@ -14,15 +14,15 @@ public class TagController : ControllerBase
         _tagService = tagService;
     }
 
-    [HttpPost("Create")]
-    public async Task<ActionResult<TagGrid>> CreateTag(Guid idGallery, TagCreateRequest tagCreateRequest)
+    [HttpPost("Gallery/{idGallery}/Tag/Create")]
+    public async Task<ActionResult<TagGrid>> CreateTag([FromRoute] Guid idGallery, [FromBody] TagCreateRequest tagCreateRequest)
     {
         var result = await _tagService.CreateTag(idGallery, tagCreateRequest);
         if (!result.IsSuccess) return StatusCode(500);
         return Ok(result.Tag);
     }
 
-    [HttpGet("")]
+    [HttpGet("Gallery/{idGallery}/Tags")]
     public async Task<ActionResult<IEnumerable<TagGrid>>> GetTags(Guid idGallery)
     {
         return Ok(await _tagService.GetTagGrid(idGallery, new TagGridRequest()
